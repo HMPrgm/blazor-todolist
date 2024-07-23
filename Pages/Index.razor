@@ -2,23 +2,46 @@
 
 <PageTitle>Index</PageTitle>
 
-<div style="display:flex; flex-direction:column">
+<div style="display:flex; flex-direction:column;  text-align:center; ">
+	<h1>Tasks</h1>
+	<div>
+		<input type="text" @bind="@CurrentTask" @oninput="@((e)=> {CurrentTask=(string?)e.Value;})" placeholder="New Task" />
+		<button onclick="@AddTask">Submit</button>
+	</div>
 	@foreach (Todo todo in tasks)
 	{
-		<div style="display:flex; ">
-			<div style="font-weight:bold; padding-right:3px">@todo.Name</div>
-			<div>Completed: @todo.completed</div>
+		<div style="display:flex; justify-content:center;">
+
+			<div style="font-weight:bold; padding-right:3px @StyleForChecked(todo.completed)">@todo.Name</div>
+			<input type="checkbox" checked="@todo.completed"/>
 		</div>
 	}
 </div>
 
 
 @code {
+	private string? CurrentTask { get; set; } = "";
 	private List<Todo> tasks { get; set; } = new List<Todo>();
 
 	protected override void OnInitialized()
 	{
 		tasks.Add(new Todo("Homework 3.2"));
 		tasks.Add(new Todo("Homework 3.3"));
+	}
+
+	protected void AddTask()
+	{
+		if (CurrentTask == null || CurrentTask == "")
+		{
+			return;
+		}
+		tasks.Add(new Todo(CurrentTask));
+		CurrentTask = "";
+	}
+
+	protected string StyleForChecked(bool completed)
+	{
+		Console.WriteLine(completed);
+		return completed ? "text-decoration: line-through;" : "";
 	}
 }
