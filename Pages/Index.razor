@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<div style="display:flex; flex-direction:column">
+	@foreach (Todo todo in tasks)
+	{
+		<div style="display:flex; ">
+			<div style="font-weight:bold; padding-right:3px">@todo.Name</div>
+			<div>Completed: @todo.completed</div>
+		</div>
+	}
+</div>
+
+
+@code {
+	private List<Todo> tasks { get; set; } = new List<Todo>();
+
+	protected override void OnInitialized()
+	{
+		tasks.Add(new Todo("Homework 3.2"));
+		tasks.Add(new Todo("Homework 3.3"));
+	}
+}
